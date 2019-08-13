@@ -1,21 +1,27 @@
 <template>
   <div class="movie_body">
-    <ul>
-      <li v-for="item in comingList" :key="item.id">
-        <div class="pic_show">
-          <img :src="item.img |setWH('128.180')" />
-        </div>
-        <div class="info_list">
-          <h2>{{item.nm}} <img src="@/assets/maxs.png"  v-if="item.version" /></h2>
-          <p>
-            <span class="person">{{item.wish}}</span> 人想看
-          </p>
-          <p>主演: {{item.star}}</p>
-          <p>{{item.rt}}上映</p>
-        </div>
-        <div class="btn_pre">预售</div>
-      </li>
-    </ul>
+    <Loading v-if="isLoading" />
+    <Scroller v-else>
+      <ul>
+        <li v-for="item in comingList" :key="item.id">
+          <div class="pic_show">
+            <img :src="item.img |setWH('128.180')" />
+          </div>
+          <div class="info_list">
+            <h2>
+              {{item.nm}}
+              <img src="@/assets/maxs.png" v-if="item.version" />
+            </h2>
+            <p>
+              <span class="person">{{item.wish}}</span> 人想看
+            </p>
+            <p>主演: {{item.star}}</p>
+            <p>{{item.rt}}上映</p>
+          </div>
+          <div class="btn_pre">预售</div>
+        </li>
+      </ul>
+    </Scroller>
   </div>
 </template>
 
@@ -24,15 +30,24 @@ export default {
   name: "ComingSoon",
   data() {
     return {
-      comingList: []
+      comingList: [],
+      isLoading: true,
+      prevCityId: -1
     };
   },
-  mounted() {
-    this.axios.get("/api/movieComingList?cityId=10").then(res => {
-      // console.log(res);
+  activated() {
+    var cityId = this.$store.state.city.id;
+
+    if (this.prevCityId === cityId) {
+      return;
+    }
+    // console.log(123);
+    this.isLoading = true;
+    this.axios.get("/api/movieComingList?cityId="+cityId).then(res => {
       if (res.data.msg === "ok") {
         this.comingList = res.data.data.comingList;
-        // console.log(this.comingList);
+        this.isLoading = false;
+        this.prevCityId = cityId;
       }
     });
   }

@@ -52,10 +52,11 @@ export default {
   },
   watch: {
     message(newVal) {
+      var cityId = this.$store.state.city.id;
       //终止多次请求
       this.cancelRequest();
       this.axios
-        .get("/api/searchList?cityId=10&kw=" + encodeURI(encodeURI(newVal)), {
+        .get("/api/searchList?cityId="+cityId+"&kw=" + encodeURI(encodeURI(newVal)), {
           //如果是中文参数需要转码
           cancelToken: new this.axios.CancelToken(c => {
             this.source = c;
