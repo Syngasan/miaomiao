@@ -7,7 +7,7 @@
           <Loading />
         </li>
         <!-- {{pullDownMsg}} -->
-        <li v-for="item in movieList" :key="item.id" @tap="handleToDetail">
+        <li v-for="item in movieList" :key="item.id" @tap="handleToDetail(item.id)">
           <div class="pic_show">
             <img :src="item.img | setWH('128.180')" />
           </div>
@@ -43,8 +43,8 @@ export default {
     };
   },
   methods: {
-    handleToDetail() {
-      console.log("触发了");
+    handleToDetail(id) {
+      this.$router.push("/movie/detail/1/" + id);
     },
     handleToScroll(pos) {
       if (pos.y > 30) {
@@ -54,7 +54,7 @@ export default {
     handleToTouchEnd(pos) {
       if (pos.y > 30) {
         var cityId = this.$store.state.city.id;
-        this.axios.get("/api/movieOnInfoList?cityId="+cityId).then(res => {
+        this.axios.get("/api/movieOnInfoList?cityId=" + cityId).then(res => {
           if (res.data.msg === "ok") {
             setTimeout(() => {
               this.movieList = res.data.data.movieList;

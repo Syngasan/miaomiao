@@ -3,7 +3,7 @@
     <Loading v-if="isLoading" />
     <Scroller v-else>
       <ul>
-        <li v-for="item in comingList" :key="item.id">
+        <li v-for="item in comingList" :key="item.id" @tap="handleToDetail(item.id)">
           <div class="pic_show">
             <img :src="item.img |setWH('128.180')" />
           </div>
@@ -34,6 +34,11 @@ export default {
       isLoading: true,
       prevCityId: -1
     };
+  },
+  methods: {
+    handleToDetail(id){
+      this.$router.push("/movie/detail/2/" + id)
+    }
   },
   activated() {
     var cityId = this.$store.state.city.id;
