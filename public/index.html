@@ -10,6 +10,15 @@
   <link rel="stylesheet" href="<%= BASE_URL %>css/iconfont/iconfont.css">
   <link rel="stylesheet" href="<%= BASE_URL %>libs/swiper-4.1.0.min.css">
   <title>miaomiao</title>
+  <style>
+    #app {
+      display: flex;
+      height: 100%;
+    }
+    #app div {
+      margin: auto;
+    }
+  </style>
 </head>
 
 <body>
@@ -17,7 +26,9 @@
     <strong>We're sorry but miaomiao doesn't work properly without JavaScript enabled. Please enable it to
       continue.</strong>
   </noscript>
-  <div id="app"></div>
+  <div id="app">
+    <div>喵喵努力加载中...</div>
+  </div>
   <!-- built files will be auto injected -->
   <script src="<%= BASE_URL %>libs/swiper-4.1.0.min.js"></script>
 </body>

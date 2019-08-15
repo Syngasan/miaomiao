@@ -29,9 +29,10 @@ export default {
 
 <style scoped>
 .spinner {
-  position: relative;
-  margin: 0 auto;
+  position: fixed;
+  /* margin: 50%; */
   top: 45%;
+  left: 48%;
   width: 20px;
   height: 20px;
 }
