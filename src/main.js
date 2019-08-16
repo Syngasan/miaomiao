@@ -5,7 +5,7 @@ import store from './stores'
 import axios from 'axios';
 Vue.config.productionTip = false
 Vue.prototype.axios = axios
-
+// 过滤器
 Vue.filter('setWH', (url, arg) => {
   return url.replace(/w\.h/, arg)
 })

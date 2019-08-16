@@ -8,7 +8,9 @@ Vue.use(Router)
 
 export default new Router({
   mode: 'history',
-  base: process.env.BASE_URL,
+  // base: process.env.BASE_URL,
+  // 修改跟路径
+  base: 'miaomaio',
   routes: [
     movieRouter,
     cinemaRouter,
