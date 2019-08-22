@@ -1,6 +1,6 @@
 module.exports = {
     // 静态资源路径
-    publicPath:'/miaomiao',
+    publicPath: '/miaomiao',
     // 开发代理
     devServer: {
         proxy: {

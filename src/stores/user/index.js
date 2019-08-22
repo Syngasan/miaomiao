@@ -1,6 +1,6 @@
 const state = {
-    name: '',
-    isAdmin: false
+    name: localStorage.getItem('name') || '',
+    isAdmin: localStorage.getItem('isAdmin') || false
 
 }
 const actions = {

@@ -20,6 +20,8 @@ export default {
       this.axios.get("/api2/users/logout").then(res => {
         var status = res.data.status;
         if (status === 0) {
+          localStorage.removeItem("name");
+          localStorage.removeItem("isAdmin");
           this.$store.commit("user/USER_NAME", { name: "", isAdmin: false });
           this.$router.push("/mine/login");
         }
@@ -31,6 +33,8 @@ export default {
     axios.get("/api2/users/getUser").then(res => {
       if (res.data.status === 0) {
         next(vm => {
+          localStorage.setItem("name", res.data.data.username);
+          localStorage.setItem("isAdmin", res.data.data.isAdmin);
           vm.$store.commit("user/USER_NAME", {
             name: res.data.data.username,
             isAdmin: res.data.data.isAdmin
