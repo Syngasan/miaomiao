@@ -7,6 +7,10 @@
       <div>
         <input class="login_text" type="password" placeholder="请输入您的密码" v-model="password" />
       </div>
+      <div>
+        <input class="login_text" type="password" placeholder="请输入验证码" v-model="verifyImg" />
+        <img src="/api2/users/verifyImg" alt @touchstart="handleToVerifyImg" />
+      </div>
       <div class="login_btn">
         <input type="submit" value="登录" @touchstart="handleToLogin" />
       </div>
@@ -25,7 +29,8 @@ export default {
   data() {
     return {
       username: "",
-      password: ""
+      password: "",
+      verifyImg: ""
     };
   },
   methods: {
@@ -33,7 +38,8 @@ export default {
       this.axios
         .post("/api2/users/login", {
           username: this.username,
-          password: this.password
+          password: this.password,
+          verifyImg: this.verifyImg
         })
         .then(res => {
           var that = this;
@@ -49,11 +55,15 @@ export default {
           } else {
             messageBox({
               title: "登录",
-              content: "登录失败",
+              content: res.data.msg,
               ok: "确定"
             });
           }
         });
+    },
+    handleToVerifyImg(e) {
+      console.log(e);
+      e.target.src = "/api2/users/verifyImg?" + new Date().getTime();
     }
   }
 };

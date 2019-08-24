@@ -3,7 +3,7 @@
     <div class="email">
       邮箱：
       <input type="text" class="register_text" v-model="email" />
-      <button type="button" @touchstart="handleToVerify">{{msg}}</button>
+      <button type="button" :disabled="disabled" @touchstart="handleToVerify">{{msg}}</button>
     </div>
     <div>
       用户名：
@@ -33,6 +33,7 @@
 
 <script>
 import { messageBox } from "@/components/JS";
+import { clearInterval } from "timers";
 export default {
   name: "Register",
   data() {
@@ -41,16 +42,41 @@ export default {
       email: "",
       username: "",
       password: "",
-      verify: ""
+      verify: "",
+      disabled: false,
+      timer: null
     };
   },
+  beforeDestroy() {
+    window.clearInterval(this.timer);
+  },
   methods: {
+    countDown() {
+      this.disabled = true;
+      var count = 60;
+      this.timer = window.setInterval(() => {
+        count--;
+        this.msg = "剩余" + count + "秒";
+        if (count === 0) {
+          this.disabled = false;
+          count = 60;
+          this.msg = "发送验证码";
+          window.clearInterval(this.timer);
+        }
+      }, 1000);
+      // this.$once("hook:beforeDestroy", () => {
+      //   window.clearInterval(timer);
+      // });
+    },
     handleToVerify() {
+      if (this.disabled) {
+        return;
+      }
       this.axios.get("/api2/users/verify?email=" + this.email).then(res => {
         if (res.data.status === 0) {
-          this.msg = "发送成功";
+          this.countDown();
         } else {
-          this.msg = "发送失败";
+          this.msg = "发送失败,请重新尝试";
         }
       });
     },

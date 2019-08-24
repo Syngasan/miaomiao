@@ -8,11 +8,16 @@
       <a href="/admin" target="_black">进入管理后台</a>
     </div>
     <div v-else>用户身份：普通会员</div>
+    <div>
+      <input type="file" name="file" value="上传头像" @change="handleToUpload" />
+      <img :src="$store.state.user.userHead" alt />
+    </div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import { messageBox } from "@/components/JS";
 export default {
   name: "Center",
   methods: {
@@ -22,8 +27,47 @@ export default {
         if (status === 0) {
           localStorage.removeItem("name");
           localStorage.removeItem("isAdmin");
-          this.$store.commit("user/USER_NAME", { name: "", isAdmin: false });
+          this.$store.commit("user/USER_NAME", {
+            name: "",
+            isAdmin: false,
+            userHead: ""
+          });
           this.$router.push("/mine/login");
+        }
+      });
+    },
+    handleToUpload(ev) {
+      var file = ev.target.files[0];
+      var param = new FormData();
+      param.append("file", file, file.name);
+      var config = {
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
+      };
+
+      this.axios.post("/api2/users/uploadUserHead", param, config).then(res => {
+        var status = res.data.status;
+        var This = this;
+        if (status === 0) {
+          messageBox({
+            title: "信息",
+            content: "上传头像成功",
+            ok: "确定",
+            handleOk() {
+              This.$store.commit("user/USER_NAME", {
+                name: This.$store.state.user.name,
+                isAdmin: This.$store.state.user.isAdmin,
+                userHead: res.data.data.userHead + "?" + Math.random()
+              });
+            }
+          });
+        } else {
+          messageBox({
+            title: "信息",
+            content: "上传头像失败",
+            ok: "确定"
+          });
         }
       });
     }
@@ -37,7 +81,8 @@ export default {
           localStorage.setItem("isAdmin", res.data.data.isAdmin);
           vm.$store.commit("user/USER_NAME", {
             name: res.data.data.username,
-            isAdmin: res.data.data.isAdmin
+            isAdmin: res.data.data.isAdmin,
+            userHead: res.data.data.userHead
           });
         });
       } else {
