@@ -1,17 +1,18 @@
 <template>
   <header id="header">
-    <slot></slot>
+    <slot></slot> 
+    <!-- 插槽 -->
     <h1>{{title}}</h1>
   </header>
-</template>
+</template> 
 
 <script>
 export default {
   name: "Header",
-  props: {
+  props: {  //接收父传过来的值
     title: {
-      type: String,
-      default: "喵喵电影"
+      type: String,  
+      default: "喵喵电影" //默认值
     }
   }
 };

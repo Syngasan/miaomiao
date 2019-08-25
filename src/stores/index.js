@@ -14,7 +14,7 @@ export default new Vuex.Store({
   actions: {
 
   },
-  modules:{
+  modules:{ //引入状态组件
     city,
     user
   }

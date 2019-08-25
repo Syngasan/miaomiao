@@ -1,7 +1,8 @@
+// 暴露整个
 export default {
     path: '/movie',
     component: () => import('@/views/Movie'),
-    children: [
+    children: [//子路由
         {
             path: "city",
             component: () => import('@/components/City')
@@ -19,12 +20,12 @@ export default {
             component: () => import('@/components/ComingSoon')
         },
         {
-            path: 'detail/1/:id',
+            path: 'detail/1/:id',//动态路由
             components: {
-                default: () => import('@/components/NowPlaying'),
-                detail: () => import('@/views/Movie/detail')
+                default: () => import('@/components/NowPlaying'), //默认显示的视图
+                detail: () => import('@/views/Movie/detail')    //在命名视图显示
             },
-            props: {
+            props: { //路由组件传参
                 detail: true
             }
         },
@@ -40,7 +41,7 @@ export default {
         },
         {
             path: "/movie",
-            redirect: '/movie/nowplaying'
+            redirect: '/movie/nowplaying' //重定向
         },
 
     ]

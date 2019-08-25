@@ -1,4 +1,7 @@
+
+
 <template>
+  <!-- 首页模块 -->
   <div id="main">
     <Header title="喵喵电影" />
     <div id="content">
@@ -15,11 +18,13 @@
           <i class="iconfont icon-sousuo"></i>
         </router-link>
       </div>
+      <!--使用keep-alive会将页面缓存-->
       <keep-alive>
         <router-view></router-view>
       </keep-alive>
     </div>
     <TabBar />
+    <!-- 命名视图 显示详情页-->
     <router-view name="detail"></router-view>
   </div>
 </template>

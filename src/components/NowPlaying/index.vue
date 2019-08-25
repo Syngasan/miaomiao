@@ -1,6 +1,7 @@
 <template>
   <div class="movie_body" ref="movie_body">
     <Loading v-if="isLoading" />
+    <!-- 把事件传入子组件中 -->
     <Scroller v-else :handleToScroll="handleToScroll" :handleToTouchEnd="handleToTouchEnd">
       <ul>
         <li class="pullDown" v-if="isLoading1">
@@ -47,6 +48,7 @@ export default {
       this.$router.push("/movie/detail/1/" + id);
     },
     handleToScroll(pos) {
+      // 如果滑动超过30显示loadding
       if (pos.y > 30) {
         this.isLoading1 = true;
       }

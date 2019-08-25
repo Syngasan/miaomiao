@@ -8,17 +8,18 @@ import adminRouter from './admin';
 Vue.use(Router)
 
 export default new Router({
-  mode: 'history',
+  mode: 'history', //
   // base: process.env.BASE_URL,
-  // 修改跟路径
+  // 修改根路径
   base: 'miaomaio',
+  // 引入路由
   routes: [
     movieRouter,
     cinemaRouter,
     mineRouter,
     adminRouter,
     {
-      path: "/*",
+      path: "/*", //重定向到movie
       redirect: "/movie"
     }
   ]

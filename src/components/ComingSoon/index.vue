@@ -32,27 +32,29 @@ export default {
     return {
       comingList: [],
       isLoading: true,
-      prevCityId: -1
+      prevCityId: -1 
     };
   },
   methods: {
-    handleToDetail(id){
-      this.$router.push("/movie/detail/2/" + id)
+    // 点击发送id，请求数据
+    handleToDetail(id) {
+      this.$router.push("/movie/detail/2/" + id);
     }
   },
   activated() {
+    // 从状态里后去城市定位id
     var cityId = this.$store.state.city.id;
-
+    // 判断当前页面的城市id是否有改变，如果有就不继续
     if (this.prevCityId === cityId) {
       return;
     }
     // console.log(123);
     this.isLoading = true;
-    this.axios.get("/api/movieComingList?cityId="+cityId).then(res => {
+    this.axios.get("/api/movieComingList?cityId=" + cityId).then(res => {
       if (res.data.msg === "ok") {
         this.comingList = res.data.data.comingList;
         this.isLoading = false;
-        this.prevCityId = cityId;
+        this.prevCityId = cityId; //把城市id赋给当前页面的id做判断
       }
     });
   }

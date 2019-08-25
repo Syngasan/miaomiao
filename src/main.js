@@ -9,16 +9,17 @@ import 'element-ui/lib/theme-chalk/index.css';
 Vue.use(ElementUI);
 
 Vue.config.productionTip = false
+// 把axios赋值到全局中
 Vue.prototype.axios = axios
 
 // 过滤器
 Vue.filter('setWH', (url, arg) => {
   return url.replace(/w\.h/, arg)
 })
-
-import Scroller from '@/components/Scroller';
-import Loading from '@/components/Loading';
-
+// 引入为全局组件
+import Scroller from '@/components/Scroller'; //滑动
+import Loading from '@/components/Loading'; //加载
+// 注册为全局组件
 Vue.component('Scroller', Scroller);
 Vue.component('Loading', Loading);
 

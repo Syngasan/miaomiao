@@ -54,13 +54,14 @@ export default {
   components: {
     Header
   },
-  props: ["id"],
+  props: ["id"], //路由传过来的参数,用this.id即可拿到
   methods: {
     handleToBack() {
-      this.$router.back();
+      this.$router.back(); //返回上一个路由
     }
   },
   mounted() {
+    // 请求数据
     this.axios.get("/api/detailmovie?movieId=" + this.id).then(res => {
       if (res.statusText == "OK" && res.status == 200) {
         this.isLoading = false;

@@ -1,11 +1,13 @@
 <template>
   <div class="wrapper" ref="wrapper">
-    <slot></slot>
+    <slot></slot> 
+    <!-- 插槽 -->
   </div>
 </template>
 
 <script>
 import BScroll from "better-scroll";
+import { nextTick } from 'q';
 export default {
   name: "Scroller",
   props: {
@@ -19,10 +21,11 @@ export default {
     }
   },
   mounted() {
+    // nextTick保证页面渲染完成后再调用
     this.$nextTick(() => {
       var scroll = new BScroll(this.$refs.wrapper, {
-        tap: true,
-        probeType: 1
+        tap: true,  //点击事件
+        probeType: 1  //滚动的时候会派发scroll事件，会截流
       });
       this.scroll = scroll;
       scroll.on("scroll", pos => {

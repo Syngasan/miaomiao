@@ -52,9 +52,11 @@ export default {
     };
   },
   mounted() {
+    // 从本地存储中获取热门城市和城市列表
     var cityList = window.localStorage.getItem("cityList");
     var hotList = window.localStorage.getItem("hotList");
 
+    // 判断本地存储是否有值，没有就请求
     if (hotList && cityList) {
       this.cityList = JSON.parse(cityList);
       this.hotList = JSON.parse(hotList);
@@ -63,7 +65,9 @@ export default {
       this.axios.get("/api/cityList").then(res => {
         if (res.data.msg === "ok") {
           var cities = res.data.data.cities;
+
           // this.formatCityList(cities);
+          // 调用formatCityList方法进行分割，分成城市列表和热门列表，并进行赋值
           var { cityList, hotList } = this.formatCityList(cities);
           this.cityList = cityList;
           this.hotList = hotList;
@@ -75,18 +79,21 @@ export default {
     }
   },
   methods: {
+    // 格式化城市数据
     formatCityList(cities) {
-      var cityList = [];
-      var hotList = [];
+      var cityList = []; //城市
+      var hotList = []; //热门城市
 
-      // 热门城市
+      // 循环传过来的数据
       for (var i = 0; i < cities.length; i++) {
+        // 判断是否是热门
         if (cities[i].isHot === 1) {
           hotList.push(cities[i]);
         }
       }
 
       for (var i = 0; i < cities.length; i++) {
+        // 截取首字母
         var firstLetter = cities[i].py.substring(0, 1).toUpperCase();
         if (toCom(firstLetter)) {
           //新添加index
@@ -103,6 +110,7 @@ export default {
           }
         }
       }
+      // 排序
       cityList.sort((a, b) => {
         if (a.index < b.index) {
           return -1;
@@ -112,6 +120,7 @@ export default {
           return 0;
         }
       });
+      // 判断cityList首字母是否存在，存在返回false，不存在返回true
       function toCom(firstLetter) {
         for (var i = 0; i < cityList.length; i++) {
           if (cityList[i].index === firstLetter) {
@@ -120,7 +129,7 @@ export default {
         }
         return true;
       }
-
+      // 把数据返回出去
       return {
         cityList,
         hotList
@@ -129,6 +138,7 @@ export default {
     handleToIndex(index) {
       var h2 = this.$refs.city_sort.getElementsByTagName("h2");
       // this.$refs.city_sort.parentNode.scrollTop = h2[index].offsetTop;
+      // 跳转到指定的地方
       this.$refs.city_list.toScrollTop(-h2[index].offsetTop);
     },
     handleToCity(nm, id) {
